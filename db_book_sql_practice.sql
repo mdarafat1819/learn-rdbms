@@ -334,3 +334,16 @@ Fnd the information about all instructors together with the course id of all cou
 SELECT instructor.ID, instructor.name, instructor.dept_name, teaches.course_id
 FROM instructor, teaches WHERE instructor.ID = teaches.ID 
 ORDER BY instructor.ID;
+/*
+Fnd the set of all courses taught in the Fall 2017 semester, the Spring 2018 semester, or both.
+*/
+-- Method1:
+SELECT DISTINCT course_id FROM section
+WHERE (semester = 'Fall' AND year = 2017) OR (semester = 'Spring' AND year = '2018')
+ORDER BY course_id;
+-- Method2:
+SELECT course_id FROM section
+WHERE semester = 'Fall' AND year = '2017'
+UNION
+SELECT course_id FROM section
+WHERE semester = 'Spring' AND year = '2018' ORDER BY course_id;
