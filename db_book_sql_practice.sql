@@ -321,3 +321,14 @@ VALUES
 ('CS-347', 'CS-101'),
 ('EE-181', 'PHY-101');
 SELECT * FROM prereq;
+
+
+SELECT instructor.name FROM instructor WHERE instructor.dept_name='History';
+SELECT instructor.ID, department.dept_name FROM instructor, department
+WHERE instructor.dept_name = department.dept_name AND department.budget >= 95000;
+/*
+Fnd the information about all the instructors who work in the Watson building.
+*/
+SELECT instructor.name, instructor.dept_name, department.building
+FROM instructor, department
+WHERE instructor.dept_name = department.dept_name AND department.building = 'Watson';
