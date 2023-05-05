@@ -367,3 +367,10 @@ SELECT course_id FROM section
 WHERE semester='Fall' AND year='2017' AND course_id NOT IN(
 	SELECT course_id FROM section WHERE semester='Spring' AND year='2018'
 );
+
+/*
+Find the ID and name of those instructors who earn more than the instructor whose ID is 12121.
+*/
+SELECT id, name, salary FROM instructor
+WHERE salary > (SELECT salary FROM instructor WHERE id = '12121');
+
