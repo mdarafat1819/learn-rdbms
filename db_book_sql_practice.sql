@@ -373,4 +373,18 @@ Find the ID and name of those instructors who earn more than the instructor whos
 */
 SELECT id, name, salary FROM instructor
 WHERE salary > (SELECT salary FROM instructor WHERE id = '12121');
-
+/*
+Finds information about courses taught by instructors in the Physics department.
+*/
+-- Solved By Yeasin
+SELECT course_id, title FROM course
+WHERE course_id IN (
+	SELECT t.course_id FROM teaches t, instructor i
+	WHERE t.id = i.id AND i.dept_name = 'Physics'
+);
+-- Solved By ChatGPT
+SELECT c.course_id, c.title, t.sec_id, t.semester, t.year, i.name
+FROM course c
+INNER JOIN teaches t ON c.course_id = t.course_id
+INNER JOIN instructor i ON t.ID = i.ID
+WHERE i.dept_name = 'Physics';
