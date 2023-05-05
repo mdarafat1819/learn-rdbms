@@ -347,3 +347,16 @@ WHERE semester = 'Fall' AND year = '2017'
 UNION
 SELECT course_id FROM section
 WHERE semester = 'Spring' AND year = '2018' ORDER BY course_id;
+/*
+Find the set of all courses taught in both the Fall 2017 and the Spring 2018 semesters.
+*/
+-- Method1:
+SELECT DISTINCT a.course_id FROM 
+	(SELECT course_id FROM section WHERE semester='Fall' AND year='2017') AS a,
+	(SELECT course_id FROM section WHERE semester='Spring' AND year='2018') AS b
+WHERE a.course_id = b.course_id;
+-- Method2:
+SELECT DISTINCT a.course_id FROM 
+(SELECT course_id FROM section WHERE semester='Fall' AND year='2017') AS a
+WHERE a.course_id IN (SELECT course_id FROM section WHERE semester='Spring' AND year='2018');
+
