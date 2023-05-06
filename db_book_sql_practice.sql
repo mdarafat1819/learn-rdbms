@@ -403,6 +403,9 @@ Find the names of all instructors who earn more than the lowest paid instructor 
 -- Method1:
 SELECT name FROM instructor 
 WHERE salary > (SELECT MIN(salary) FROM instructor WHERE dept_name = 'Physics');
-
-
+/*
+Find the names of all departments whose building name includes the substring 'Wat'.
+*/
+SELECT dept_name, building FROM department
+WHERE building LIKE '%wat%';
 
