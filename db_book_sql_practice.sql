@@ -388,3 +388,14 @@ FROM course c
 INNER JOIN teaches t ON c.course_id = t.course_id
 INNER JOIN instructor i ON t.ID = i.ID
 WHERE i.dept_name = 'Physics';
+/*
+Find the names of all instructors whose salary is greater than at least one instructor in the Biology department.
+*/
+-- Method1:
+SELECT a.name FROM instructor AS a, instructor AS b
+WHERE a.salary > b.salary AND b.dept_name = 'Biology';
+-- Method2:
+SELECT name FROM instructor 
+WHERE salary > (SELECT salary FROM instructor WHERE dept_name='Biology');
+
+
