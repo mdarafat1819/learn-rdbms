@@ -397,5 +397,12 @@ WHERE a.salary > b.salary AND b.dept_name = 'Biology';
 -- Method2:
 SELECT name FROM instructor 
 WHERE salary > (SELECT salary FROM instructor WHERE dept_name='Biology');
+/*
+Find the names of all instructors who earn more than the lowest paid instructor in the Biology department.
+*/
+-- Method1:
+SELECT name FROM instructor 
+WHERE salary > (SELECT MIN(salary) FROM instructor WHERE dept_name = 'Physics');
+
 
 
