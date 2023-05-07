@@ -359,6 +359,11 @@ WHERE a.course_id = b.course_id;
 SELECT DISTINCT a.course_id FROM 
 (SELECT course_id FROM section WHERE semester='Fall' AND year='2017') AS a
 WHERE a.course_id IN (SELECT course_id FROM section WHERE semester='Spring' AND year='2018');
+-- Method3: 
+SELECT course_id FROM section 
+WHERE semester='Fall' AND year='2017' 
+	AND course_id IN (SELECT course_id FROM section WHERE semester='Spring' AND year='2018');
+
 /*
 Find all the courses taught in the Fall 2017 semester but not in Spring 2018
 semester.

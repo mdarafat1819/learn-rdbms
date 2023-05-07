@@ -21,6 +21,13 @@ CREATE TABLE works
     salary NUMERIC(8,2),
     PRIMARY KEY(person_name)
 );
+/*
+What is the result of ﬁrst performing the Cartesian product of student and advisor, and then performing a selection operation on the result with the predicate s_id = ID?
+*/
+SELECT * from student, advisor
+WHERE student.ID = advisor.s_id;
+
+
 
 
 
