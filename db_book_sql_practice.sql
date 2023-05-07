@@ -427,4 +427,9 @@ Find the number of instructors in each department who teach a course in the Spri
 */
 SELECT dept_name, count( DISTINCT teaches.id) FROM teaches, instructor
 WHERE semester='Spring' AND year='2018' AND instructor.id = teaches.id GROUP BY dept_name;
+/*
+Find the average salary of instructors in those departments where the average salary is more than $42,000.
+*/
+SELECT dept_name, AVG(salary) FROM instructor 
+GROUP BY dept_name HAVING AVG(salary) > 42000;
 
