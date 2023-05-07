@@ -432,4 +432,11 @@ Find the average salary of instructors in those departments where the average sa
 */
 SELECT dept_name, AVG(salary) FROM instructor 
 GROUP BY dept_name HAVING AVG(salary) > 42000;
-
+/*
+For each course section offered in 2017, ﬁnd the average total credits (tot cred) of all students enrolled in the section, if the section has at least 2 students.
+*/
+select course_id, semester, year, sec_id, avg (tot_cred)
+from student, takes
+where student.ID= takes.ID and year = 2017
+group by course_id, semester, year, sec_id
+having COUNT(student.ID) >= 2;
