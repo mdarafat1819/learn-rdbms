@@ -422,4 +422,9 @@ WHERE semester='Spring' AND year='2018';
 Find the average salary in each department.
 */
 SELECT dept_name, AVG(salary) FROM instructor GROUP BY dept_name;
+/*
+Find the number of instructors in each department who teach a course in the Spring 2018 semester.
+*/
+SELECT dept_name, count( DISTINCT teaches.id) FROM teaches, instructor
+WHERE semester='Spring' AND year='2018' AND instructor.id = teaches.id GROUP BY dept_name;
 
