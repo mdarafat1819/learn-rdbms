@@ -413,4 +413,9 @@ Find the names of all departments whose building name includes the substring 'Wa
 */
 SELECT dept_name, building FROM department
 WHERE building LIKE '%wat%';
+/*
+Find the total number of instructors who teach a course in the Spring 2018 semester.
+*/
+SELECT COUNT(DISTINCT id) FROM teaches
+WHERE semester='Spring' AND year='2018';
 
