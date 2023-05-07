@@ -418,4 +418,8 @@ Find the total number of instructors who teach a course in the Spring 2018 semes
 */
 SELECT COUNT(DISTINCT id) FROM teaches
 WHERE semester='Spring' AND year='2018';
+/*
+Find the average salary in each department.
+*/
+SELECT dept_name, AVG(salary) FROM instructor GROUP BY dept_name;
 
