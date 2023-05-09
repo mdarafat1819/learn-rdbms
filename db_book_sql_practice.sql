@@ -60,6 +60,8 @@ CREATE TABLE section
     FOREIGN KEY (building, room_number) REFERENCES classroom(building, room_number)
     ON DELETE SET NULL
 );
+ALTER TABLE section 
+ADD FOREIGN KEY(time_slot_id) REFERENCES time_slot(time_slot_id);
 DESCRIBE section;
 
 CREATE TABLE teaches
@@ -440,3 +442,9 @@ from student, takes
 where student.ID= takes.ID and year = 2017
 group by course_id, semester, year, sec_id
 having COUNT(student.ID) >= 2;
+/*
+Find the total number of (distinct) students who have taken course sections taught by the instructor with ID 10101.
+*/
+SELECT count(DISTINCT id) FROM takes
+WHERE (course_id, sec_id, semester, year) 
+IN (SELECT course_id, sec_id, semester, year FROM teaches WHERE id = '10101');
