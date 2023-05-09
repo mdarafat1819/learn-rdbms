@@ -456,3 +456,8 @@ IN (SELECT course_id, sec_id, semester, year FROM teaches WHERE id = '10101');
 */
 SELECT name FROM instructor
 WHERE salary > ALL (SELECT salary FROM instructor WHERE dept_name = 'Biology'); 
+/*
+Find the departments that have the highest average salary.
+*/
+SELECT dept_name, avg(salary) FROM instructor 
+GROUP BY dept_name HAVING avg(salary) >= ALL(SELECT AVG(salary) FROM instructor GROUP BY dept_name);
