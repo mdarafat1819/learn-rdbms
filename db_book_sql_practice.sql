@@ -451,3 +451,8 @@ Find the total number of (distinct) students who have taken course sections taug
 SELECT count(DISTINCT id) FROM takes
 WHERE (course_id, sec_id, semester, year) 
 IN (SELECT course_id, sec_id, semester, year FROM teaches WHERE id = '10101');
+/*
+ﬁnd the names of all instructors that have a salary value greater than that of each instructor in the Biology department.
+*/
+SELECT name FROM instructor
+WHERE salary > ALL (SELECT salary FROM instructor WHERE dept_name = 'Biology'); 
