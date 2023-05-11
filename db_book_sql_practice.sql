@@ -503,3 +503,8 @@ total_salary(dept_name, salary) AS (SELECT dept_name, SUM(salary) FROM instructo
 average_salary(avg_salary) AS (SELECT AVG(salary) FROM instructor)
 SELECT total_salary.dept_name, total_salary.salary, avg_salary FROM total_salary, average_salary
 WHERE total_salary.salary > avg_salary;
+/*
+Lists all departments along with the number of instructors in each department.
+*/
+SELECT dept_name, (SELECT count(*) FROM instructor WHERE instructor.dept_name = department.dept_name)
+FROM department;
