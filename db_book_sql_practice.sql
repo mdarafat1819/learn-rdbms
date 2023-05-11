@@ -495,3 +495,11 @@ Print the names of each instructor, along with their salary and the average sala
 SELECT name, salary, r.avs FROM instructor, 
 (SELECT dept_name, AVG(salary) AS avs FROM instructor GROUP BY dept_name) AS r
 WHERE instructor.dept_name = r.dept_name;
+/*
+Find all departments where the total salary is greater than the average of the total salary at all departments.
+*/
+WITH
+total_salary(dept_name, salary) AS (SELECT dept_name, SUM(salary) FROM instructor GROUP BY dept_name),
+average_salary(avg_salary) AS (SELECT AVG(salary) FROM instructor)
+SELECT total_salary.dept_name, total_salary.salary, avg_salary FROM total_salary, average_salary
+WHERE total_salary.salary > avg_salary;
