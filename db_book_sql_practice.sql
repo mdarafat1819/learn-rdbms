@@ -508,3 +508,11 @@ Lists all departments along with the number of instructors in each department.
 */
 SELECT dept_name, (SELECT count(*) FROM instructor WHERE instructor.dept_name = department.dept_name)
 FROM department;
+/*
+Make each student in the Music department who has earned more than 144 credit hours an instructor in the Music department with a salary of $18,000.
+*/
+INSERT INTO instructor(id, name, dept_name, salary)
+SELECT id, name, dept_name, 18000 FROM student
+WHERE dept_name = 'Music' AND tot_cred > 144;
+
+
