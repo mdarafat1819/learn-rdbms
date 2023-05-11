@@ -480,3 +480,10 @@ Find the maximum across all departments of the total of all instructor's salarie
 */
 SELECT MAX(r.ts) FROM (
 SELECT sum(salary) AS ts FROM instructor GROUP BY dept_name) AS r;
+/*
+Print the names of each instructor, along with their salary and the average salary in their department.
+*/
+-- Method1:
+SELECT name, salary, r.avs FROM instructor, 
+(SELECT dept_name, AVG(salary) AS avs FROM instructor GROUP BY dept_name) AS r
+WHERE instructor.dept_name = r.dept_name;
