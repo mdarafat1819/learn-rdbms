@@ -180,6 +180,7 @@ VALUES
 ('PHY-101', 'Physical Principles', 'Physics', '4');
 SELECT * FROM course;
 
+DELETE FROM instructor;
 INSERT INTO instructor(ID, name, dept_name, salary)
 VALUES
 ('10101', 'Srinivasan', 'Comp. Sci.', '65000'),
@@ -514,5 +515,19 @@ Make each student in the Music department who has earned more than 144 credit ho
 INSERT INTO instructor(id, name, dept_name, salary)
 SELECT id, name, dept_name, 18000 FROM student
 WHERE dept_name = 'Music' AND tot_cred > 144;
+/*
+Give a 5 percent salary raise to instructors whose salary is less than average.
+*/
+-- Method1:
+UPDATE instructor 
+SET salary = salary * 1.05
+WHERE salary < (SELECT * FROM (SELECT avg(salary) FROM instructor) AS temp);
+-- Method2:
+UPDATE instructor 
+SET salary = salary * 1.05 WHERE id IN (
+SELECT * FROM( SELECT id FROM instructor 
+WHERE salary < (SELECT AVG(salary) FROM instructor)) AS temp);
+
+
 
 
