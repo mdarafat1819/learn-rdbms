@@ -478,8 +478,16 @@ WHERE course_freq = 1;
 /*
 Find the maximum across all departments of the total of all instructor's salaries in each department.
 */
+-- Method1:
 SELECT MAX(r.ts) FROM (
 SELECT sum(salary) AS ts FROM instructor GROUP BY dept_name) AS r;
+-- Method2:
+WITH 
+total_salary(dept_name, ts) AS (SELECT dept_name, sum(salary) FROM instructor GROUP BY dept_name),
+mxs(value) AS (SELECT MAX(ts) FROM total_salary)
+SELECT dept_name, ts FROM total_salary, mxs
+WHERE total_salary.ts = mxs.value;
+
 /*
 Print the names of each instructor, along with their salary and the average salary in their department.
 */
