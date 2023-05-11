@@ -527,6 +527,12 @@ UPDATE instructor
 SET salary = salary * 1.05 WHERE id IN (
 SELECT * FROM( SELECT id FROM instructor 
 WHERE salary < (SELECT AVG(salary) FROM instructor)) AS temp);
+/*
+Delete the records of all instructors with salary below the average at the university.
+*/
+DELETE FROM instructor WHERE salary < (SELECT * 
+FROM (SELECT AVG(salary) FROM instructor) AS temp
+);
 
 
 
