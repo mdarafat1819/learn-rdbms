@@ -461,3 +461,13 @@ Find the departments that have the highest average salary.
 */
 SELECT dept_name, avg(salary) FROM instructor 
 GROUP BY dept_name HAVING avg(salary) >= ALL(SELECT AVG(salary) FROM instructor GROUP BY dept_name);
+/*
+Find all courses that were offered at most once in 2017
+*/
+-- Method1:
+SELECT t.course_id FROM course AS t 
+WHERE (SELECT count(r.course_id) FROM section AS r WHERE t.course_id = r.course_id AND year=2017) = 1;
+-- Method2:
+SELECT s.course_id FROM 
+(SELECT course_id, count(course_id) AS course_freq FROM section WHERE year= 2017 GROUP BY course_id) AS s
+WHERE course_freq = 1;
