@@ -475,3 +475,8 @@ WHERE (SELECT count(r.course_id) FROM section AS r WHERE t.course_id = r.course_
 SELECT s.course_id FROM 
 (SELECT course_id, count(course_id) AS course_freq FROM section WHERE year= 2017 GROUP BY course_id) AS s
 WHERE course_freq = 1;
+/*
+Find the maximum across all departments of the total of all instructor's salaries in each department.
+*/
+SELECT MAX(r.ts) FROM (
+SELECT sum(salary) AS ts FROM instructor GROUP BY dept_name) AS r;
