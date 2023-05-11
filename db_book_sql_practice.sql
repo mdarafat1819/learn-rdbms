@@ -435,8 +435,12 @@ WHERE semester='Spring' AND year='2018' AND instructor.id = teaches.id GROUP BY 
 /*
 Find the average salary of instructors in those departments where the average salary is more than $42,000.
 */
+-- Method1:
 SELECT dept_name, AVG(salary) FROM instructor 
 GROUP BY dept_name HAVING AVG(salary) > 42000;
+-- Method2:
+SELECT r.dept_name, r.avs FROM (SELECT dept_name, AVG(salary) AS avs FROM instructor GROUP BY dept_name) AS r
+WHERE r.avs > 42000;
 /*
 For each course section offered in 2017, ﬁnd the average total credits (tot cred) of all students enrolled in the section, if the section has at least 2 students.
 */
