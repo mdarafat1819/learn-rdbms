@@ -552,7 +552,7 @@ takes.year = teaches.year AND
 teaches.id = instructor.id AND
 instructor.name = 'Einstein';
 /*
-Find the enrollment of each section that was oﬀered in Fall 2017.
+Find the enrollment of each section that was offered in Fall 2017.
 */
 -- Method1:
 SELECT s.course_id, s.sec_id, (SELECT COUNT(id) FROM takes AS t
@@ -561,3 +561,10 @@ FROM section AS s WHERE s.semester = 'Fall' AND s.year = '2017';
 -- Method2:
 SELECT sec_id, (SELECT COUNT(id) FROM takes AS t WHERE t.sec_id = s.sec_id AND t.year=s.year AND t.semester=s.semester) AS total_students
 FROM section AS s WHERE semester = 'Fall' AND year = '2017' GROUP BY sec_id;
+/*
+Find the maximum enrollment, across all sections, in Fall 2017.
+*/
+SELECT MAX(temp.enrollment) FROM 
+(SELECT s.course_id, s.sec_id, (SELECT COUNT(id) FROM takes AS t
+WHERE t.course_id = s.course_id AND t.sec_id = s.sec_id AND t.semester = s.semester AND t.year = s.year) AS enrollment
+FROM section AS s WHERE s.semester = 'Fall' AND s.year = '2017') AS temp;
