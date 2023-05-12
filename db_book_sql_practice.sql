@@ -199,6 +199,7 @@ SELECT * FROM instructor;
 
 INSERT INTO section
 VALUES
+('BIO-101', '3', 'Fall', '2017', 'Painter', '514', 'B'),
 ('BIO-101', '1', 'Summer', '2017', 'Painter', '514', 'B'),
 ('BIO-301', '1', 'Summer', '2018', 'Painter', '514', 'A'),
 ('CS-101', '1', 'Fall', '2017', 'Packard', '101', 'H'),
@@ -550,3 +551,13 @@ takes.semester = teaches.semester AND
 takes.year = teaches.year AND
 teaches.id = instructor.id AND
 instructor.name = 'Einstein';
+/*
+Find the enrollment of each section that was oﬀered in Fall 2017.
+*/
+-- Method1:
+SELECT s.course_id, s.sec_id, (SELECT COUNT(id) FROM takes AS t
+WHERE t.course_id = s.course_id AND t.sec_id = s.sec_id AND t.semester = s.semester AND t.year = s.year) AS enrollment
+FROM section AS s WHERE s.semester = 'Fall' AND s.year = '2017';
+-- Method2:
+SELECT sec_id, (SELECT COUNT(id) FROM takes AS t WHERE t.sec_id = s.sec_id AND t.year=s.year AND t.semester=s.semester) AS total_students
+FROM section AS s WHERE semester = 'Fall' AND year = '2017' GROUP BY sec_id;
