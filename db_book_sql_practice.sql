@@ -533,7 +533,20 @@ Delete the records of all instructors with salary below the average at the unive
 DELETE FROM instructor WHERE salary < (SELECT * 
 FROM (SELECT AVG(salary) FROM instructor) AS temp
 );
-
-
-
-
+/*
+Find the IDs of all students who were taught by an instructor named Einstein.
+*/
+-- Method1:
+WITH einstein_teaches AS (SELECT * FROM teaches
+WHERE id = (SELECT id FROM instructor WHERE name = 'Einstein'))
+SELECT t.id FROM takes AS t, einstein_teaches AS et
+WHERE t.course_id = et.course_id AND t.sec_id = et.sec_id AND t.semester = et.semester AND t.year = et.year;
+-- Method2:
+SELECT DISTINCT takes.id
+FROM takes, instructor, teaches
+WHERE takes.course_id = teaches.course_id AND
+takes.sec_id = teaches.sec_id AND
+takes.semester = teaches.semester AND
+takes.year = teaches.year AND
+teaches.id = instructor.id AND
+instructor.name = 'Einstein';
