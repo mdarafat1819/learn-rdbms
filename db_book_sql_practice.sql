@@ -578,3 +578,13 @@ WHERE student.id = takes.id;
 -- Method2:
 SELECT name, id, course_id FROM 
 student NATURAL JOIN takes;
+/*
+List the names of students along with the titles of courses that they have taken.
+*/
+-- Method1:
+SELECT student.id, student.name, course_id, title FROM student NATURAL LEFT OUTER JOIN 
+ (SELECT id, course_id, title FROM takes NATURAL JOIN course) as updated_takes;
+ -- Method2:
+ SELECT student.id, student.name, course_id, title FROM
+ student LEFT OUTER JOIN (takes NATURAL JOIN course) USING (id); 
+
