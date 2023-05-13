@@ -568,3 +568,13 @@ SELECT MAX(temp.enrollment) FROM
 (SELECT s.course_id, s.sec_id, (SELECT COUNT(id) FROM takes AS t
 WHERE t.course_id = s.course_id AND t.sec_id = s.sec_id AND t.semester = s.semester AND t.year = s.year) AS enrollment
 FROM section AS s WHERE s.semester = 'Fall' AND s.year = '2017') AS temp;
+-- Intermediate SQL
+/*
+For all students in the university who have taken some course, ﬁnd their names and the course ID of all courses they took.
+*/
+-- Method1:
+SELECT name, student.id, course_id FROM student, takes
+WHERE student.id = takes.id;
+-- Method2:
+SELECT name, id, course_id FROM 
+student NATURAL JOIN takes;
