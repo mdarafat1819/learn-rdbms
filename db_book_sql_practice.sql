@@ -597,6 +597,15 @@ SELECT student.id, student.name, course_id, title FROM student NATURAL LEFT OUTE
  SELECT id, name, course_id FROM student NATURAL LEFT OUTER JOIN takes
  WHERE course_id IS NULL;
 -- View Practice
+CREATE VIEW faculty AS SELECT id, name, dept_name FROM instructor;
 
+SELECT * FROM faculty;
+INSERT INTO faculty
+VALUES
+('20233', 'Yeasin', 'Comp. Sci.');
+SELECT * FROM instructor;
+SET SQL_SAFE_UPDATES = 0;
+DELETE FROM instructor WHERE salary is null;
 
-
+select ID, coalesce(salary, 0) as salary
+from instructor
