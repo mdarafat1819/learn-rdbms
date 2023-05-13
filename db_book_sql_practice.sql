@@ -586,5 +586,14 @@ SELECT student.id, student.name, course_id, title FROM student NATURAL LEFT OUTE
  (SELECT id, course_id, title FROM takes NATURAL JOIN course) as updated_takes;
  -- Method2:
  SELECT student.id, student.name, course_id, title FROM
- student LEFT OUTER JOIN (takes NATURAL JOIN course) USING (id); 
+ student LEFT OUTER JOIN (takes NATURAL JOIN course) USING (id);
+ /*
+ Find all students who have not taken a course.
+ */
+ -- Method1:
+ SELECT id, name FROM student
+ WHERE id NOT IN(SELECT id FROM takes);
+ -- Methdo2:
+ SELECT id, name, course_id FROM student NATURAL LEFT OUTER JOIN takes
+ WHERE course_id IS NULL;
 
