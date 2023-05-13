@@ -596,4 +596,7 @@ SELECT student.id, student.name, course_id, title FROM student NATURAL LEFT OUTE
  -- Methdo2:
  SELECT id, name, course_id FROM student NATURAL LEFT OUTER JOIN takes
  WHERE course_id IS NULL;
+-- View Practice
+
+
 
