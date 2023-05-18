@@ -607,5 +607,15 @@ SELECT * FROM instructor;
 SET SQL_SAFE_UPDATES = 0;
 DELETE FROM instructor WHERE salary is null;
 
-select ID, coalesce(salary, 0) as salary
-from instructor
+DELIMITER //
+CREATE FUNCTION dept_count(dept_name VARCHAR(20))
+RETURNS INTEGER DETERMINISTIC
+BEGIN
+	DECLARE d_count INTEGER;
+    SELECT COUNT(*) INTO d_count FROM instructor 
+    WHERE instructor.dept_name = dept_name;
+    RETURN d_count;
+END
+//
+DELIMITER ;
+
