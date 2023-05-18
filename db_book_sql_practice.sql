@@ -618,4 +618,9 @@ BEGIN
 END
 //
 DELIMITER ;
+/*
+Show names and budgets of all departments with more than 12 instructors.
+*/
+SELECT dept_name, budget FROM department
+WHERE dept_count(dept_name) > 12;
 
