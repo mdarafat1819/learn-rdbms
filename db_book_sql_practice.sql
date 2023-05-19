@@ -624,3 +624,12 @@ Show names and budgets of all departments with more than 12 instructors.
 SELECT dept_name, budget FROM department
 WHERE dept_count(dept_name) > 12;
 
+-- Procedures
+DELIMITER //
+CREATE PROCEDURE dept_count_proc(IN dept_name VARCHAR(20), OUT d_count INTEGER)
+BEGIN
+SELECT COUNT(*) INTO d_count FROM instructor 
+WHERE instructor.dept_name = dept_count_proc.dept_name;
+END
+// DELIMITER ;
+
