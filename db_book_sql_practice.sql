@@ -632,4 +632,14 @@ SELECT COUNT(*) INTO d_count FROM instructor
 WHERE instructor.dept_name = dept_count_proc.dept_name;
 END
 // DELIMITER ;
-
+-- Recursive Query
+with recursive rec_prereq(course_id, prereq_id) as (
+select course_id, prereq_id
+from prereq
+union
+select rec_prereq.course_id, prereq.prereq_id
+from rec_prereq, prereq
+where rec_prereq.prereq_id = prereq.course_id
+)
+select *
+from rec_prereq;
