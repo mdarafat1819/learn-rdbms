@@ -643,3 +643,16 @@ where rec_prereq.prereq_id = prereq.course_id
 )
 select *
 from rec_prereq;
+/*
+To assign students a rank in class based on their grade-point average (GPA).
+*/
+SELECT id, grade, RANK() OVER (ORDER BY grade DESC) FROM takes;
+-- CREATE VIEW
+CREATE VIEW dept_grades AS
+SELECT id, dept_name, grade FROM takes JOIN student USING(id);
+SELECT * FROM dept_grades;
+/*
+To find rank students by department.
+*/
+SELECT id, dept_name, RANK() OVER(PARTITION BY dept_name ORDER BY grade) AS dept_rank
+FROM dept_grades ORDER BY dept_name, dept_rank;
