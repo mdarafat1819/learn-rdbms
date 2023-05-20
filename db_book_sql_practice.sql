@@ -3,7 +3,7 @@ CREATE DATABASE IF NOT EXISTS db_book;
 USE db_book;
 SET SQL_SAFE_UPDATES = 0;
 
-CREATE TABLE classroom
+CREATE TABLE IF NOT EXISTS classroom
 (
 	building VARCHAR(15),
     room_number VARCHAR(7),
@@ -12,7 +12,7 @@ CREATE TABLE classroom
 );
 DESCRIBE classroom;
 
-CREATE TABLE department
+CREATE TABLE IF NOT EXISTS department
 (
 	dept_name VARCHAR(20),
     building VARCHAR(15),
@@ -21,7 +21,7 @@ CREATE TABLE department
 );
 DESCRIBE department;
 
-CREATE TABLE course
+CREATE TABLE IF NOT EXISTS course
 (
 	course_id VARCHAR(8),
     title VARCHAR(50),
@@ -33,7 +33,7 @@ CREATE TABLE course
 );
 DESCRIBE course;
 
-CREATE TABLE instructor
+CREATE TABLE IF NOT EXISTS instructor
 (
 	ID VARCHAR(5),
     name VARCHAR(20) NOT NULL,
@@ -45,7 +45,19 @@ CREATE TABLE instructor
 );
 DESCRIBE instructor;
 
-CREATE TABLE section
+CREATE TABLE IF NOT EXISTS time_slot
+(
+	time_slot_id VARCHAR(4),
+    day VARCHAR(1),
+    start_hr NUMERIC(2) CHECK (start_hr >= 0 AND start_hr < 24),
+    start_min NUMERIC(2) CHECK (start_min >= 0 AND start_min < 60),
+    end_hr NUMERIC(2) CHECK (end_hr >= 0 AND end_hr < 24),
+    end_min NUMERIC(2) CHECK (end_min >= 0 AND end_min < 60),
+    PRIMARY KEY(time_slot_id, day, start_hr, start_min)
+);
+DESCRIBE time_slot;
+
+CREATE TABLE IF NOT EXISTS section
 (
 	course_id VARCHAR(8),
     sec_id VARCHAR(8),
@@ -64,7 +76,7 @@ ALTER TABLE section
 ADD FOREIGN KEY(time_slot_id) REFERENCES time_slot(time_slot_id);
 DESCRIBE section;
 
-CREATE TABLE teaches
+CREATE TABLE IF NOT EXISTS teaches
 (
 	ID VARCHAR(5),
 	course_id VARCHAR(8),
@@ -80,7 +92,7 @@ CREATE TABLE teaches
 );
 DESCRIBE teaches;
 
-CREATE TABLE student
+CREATE TABLE IF NOT EXISTS student
 (
 	ID VARCHAR(5),
     name VARCHAR(20) NOT NULL,
@@ -92,7 +104,7 @@ CREATE TABLE student
 );
 DESCRIBE student;
 
-CREATE TABLE takes
+CREATE TABLE IF NOT EXISTS takes
 (
 	ID VARCHAR(5),
     course_id VARCHAR(8),
@@ -109,7 +121,7 @@ CREATE TABLE takes
 );
 DESCRIBE takes;
 
-CREATE TABLE advisor
+CREATE TABLE IF NOT EXISTS advisor
 (
 	s_ID VARCHAR(5),
     i_ID VARCHAR(5),
@@ -121,19 +133,7 @@ CREATE TABLE advisor
 );
 DESCRIBE advisor;
 
-CREATE TABLE time_slot
-(
-	time_slot_id VARCHAR(4),
-    day VARCHAR(1),
-    start_hr NUMERIC(2) CHECK (start_hr >= 0 AND start_hr < 24),
-    start_min NUMERIC(2) CHECK (start_min >= 0 AND start_min < 60),
-    end_hr NUMERIC(2) CHECK (end_hr >= 0 AND end_hr < 24),
-    end_min NUMERIC(2) CHECK (end_min >= 0 AND end_min < 60),
-    PRIMARY KEY(time_slot_id, day, start_hr, start_min)
-);
-DESCRIBE time_slot;
-
-CREATE TABLE prereq
+CREATE TABLE IF NOT EXISTS prereq
 (
 	course_id VARCHAR(8),
     prereq_id VARCHAR(8),
@@ -143,7 +143,7 @@ CREATE TABLE prereq
     FOREIGN KEY (prereq_id) REFERENCES course(course_id)
 );
 
-INSERT INTO classroom
+INSERT IGNORE INTO classroom
 VALUES
 ('Packard', '101', '500'),
 ('Painter', '514', '10'),
@@ -152,7 +152,7 @@ VALUES
 ('Watson', '120', '50');
 SELECT * FROM classroom;
 
-INSERT INTO department(dept_name, building, budget)
+INSERT IGNORE INTO department(dept_name, building, budget)
 VALUES
 ('Biology', 'Watson', '90000'),
 ('Comp. Sci.', 'Taylor', '100000'),
@@ -163,7 +163,7 @@ VALUES
 ('Physics', 'Watson', '70000');
 SELECT * FROM department;
 
-INSERT INTO course(course_id, title, dept_name, credits)
+INSERT IGNORE INTO course(course_id, title, dept_name, credits)
 VALUES
 ('BIO-101', 'Intro. to Biology', 'Biology', '4'),
 ('BIO-301', 'Genetics', 'Biology', '4'),
@@ -181,7 +181,7 @@ VALUES
 SELECT * FROM course;
 
 DELETE FROM instructor;
-INSERT INTO instructor(ID, name, dept_name, salary)
+INSERT IGNORE INTO instructor(ID, name, dept_name, salary)
 VALUES
 ('10101', 'Srinivasan', 'Comp. Sci.', '65000'),
 ('12121', 'Wu', 'Finance', '90000'),
@@ -197,7 +197,30 @@ VALUES
 ('98345', 'Kim', 'Elec. Eng.', '80000');
 SELECT * FROM instructor;
 
-INSERT INTO section
+INSERT IGNORE INTO time_slot
+VALUES
+('A', 'W', '8', '0', '8', '50'),
+('A', 'F', '8', '0', '8', '50'),
+('B', 'M', '9', '0', '9', '50'),
+('B', 'W', '9', '0', '9', '50'),
+('B', 'F', '9', '0', '9', '50'),
+('C', 'M', '11', '0', '11', '50'),
+('C', 'W', '11', '0', '11', '50'),
+('C', 'F', '11', '0', '11', '50'),
+('D', 'M', '13', '0', '13', '50'),
+('D', 'W', '13', '0', '13', '50'),
+('D', 'F', '13', '0', '13', '50'),
+('E', 'T', '10', '30', '11', '45 '),
+('E', 'R', '10', '30', '11', '45 '),
+('F', 'T', '14', '30', '15', '45 '),
+('F', 'R', '14', '30', '15', '45 '),
+('G', 'M', '16', '0', '16', '50'),
+('G', 'W', '16', '0', '16', '50'),
+('G', 'F', '16', '0', '16', '50'),
+('H', 'W', '10', '0', '12', '30');
+SELECT * FROM time_slot;
+
+INSERT IGNORE INTO section
 VALUES
 ('BIO-101', '3', 'Fall', '2017', 'Painter', '514', 'B'),
 ('BIO-101', '1', 'Summer', '2017', 'Painter', '514', 'B'),
@@ -217,7 +240,7 @@ VALUES
 ('PHY-101', '1', 'Fall', '2017', 'Watson', '100', 'A');
 SELECT * FROM section;
 
-INSERT INTO teaches
+INSERT IGNORE INTO teaches
 VALUES
 ('10101', 'CS-101', '1', 'Fall', '2017'),
 ('10101', 'CS-315', '1', 'Spring', '2018'),
@@ -236,7 +259,7 @@ VALUES
 ('98345', 'EE-181', '1', 'Spring', '2017');
 SELECT * FROM teaches;
 
-INSERT INTO student
+INSERT IGNORE INTO student
 VALUES
 ('00128', 'Zhang', 'Comp. Sci.', '102'),
 ('12345', 'Shankar', 'Comp. Sci.', '32'),
@@ -253,7 +276,7 @@ VALUES
 ('98988', 'Tanaka', 'Biology', '120');
 SELECT * FROM student;
 
-INSERT INTO takes
+INSERT IGNORE INTO takes
 VALUES
 ('00128', 'CS-101', '1', 'Fall', '2017', 'A'),
 ('00128', 'CS-347', '1', 'Fall', '2017', 'A-'),
@@ -279,7 +302,7 @@ VALUES
 ('98988', 'BIO-301', '1', 'Summer', '2018', null);
 DESCRIBE takes;
 
-INSERT INTO advisor
+INSERT IGNORE INTO advisor
 VALUES
 ('00128', '45565'),
 ('12345', '10101'),
@@ -292,30 +315,7 @@ VALUES
 ('98988', '76766');
 SELECT * FROM advisor;
 
-INSERT INTO time_slot
-VALUES
-('A', 'W', '8', '0', '8', '50'),
-('A', 'F', '8', '0', '8', '50'),
-('B', 'M', '9', '0', '9', '50'),
-('B', 'W', '9', '0', '9', '50'),
-('B', 'F', '9', '0', '9', '50'),
-('C', 'M', '11', '0', '11', '50'),
-('C', 'W', '11', '0', '11', '50'),
-('C', 'F', '11', '0', '11', '50'),
-('D', 'M', '13', '0', '13', '50'),
-('D', 'W', '13', '0', '13', '50'),
-('D', 'F', '13', '0', '13', '50'),
-('E', 'T', '10', '30', '11', '45 '),
-('E', 'R', '10', '30', '11', '45 '),
-('F', 'T', '14', '30', '15', '45 '),
-('F', 'R', '14', '30', '15', '45 '),
-('G', 'M', '16', '0', '16', '50'),
-('G', 'W', '16', '0', '16', '50'),
-('G', 'F', '16', '0', '16', '50'),
-('H', 'W', '10', '0', '12', '30');
-SELECT * FROM time_slot;
-
-INSERT INTO prereq(course_id, prereq_id)
+INSERT IGNORE INTO prereq(course_id, prereq_id)
 VALUES
 ('BIO-301', 'BIO-101'),
 ('BIO-399', 'BIO-101'),
