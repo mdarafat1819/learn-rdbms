@@ -387,8 +387,7 @@ INSERT INTO orders (OrderID, CustomerID, EmployeeID, OrderDate, ShipperID) VALUE
 --
 -- Table structure for table order_details
 --
-
-CREATE TABLE order_details (
+CREATE TABLE orderDetails (
   OrderDetailID int NOT NULL,
   OrderID int DEFAULT NULL,
   ProductID int DEFAULT NULL,
@@ -399,7 +398,7 @@ CREATE TABLE order_details (
 -- Dumping data for table order_details
 --
 
-INSERT INTO order_details (OrderDetailID, OrderID, ProductID, Quantity) VALUES
+INSERT INTO orderDetails (OrderDetailID, OrderID, ProductID, Quantity) VALUES
 (1, 10248, 11, 12),
 (2, 10248, 42, 10),
 (3, 10248, 72, 5),
@@ -1145,7 +1144,7 @@ ALTER TABLE orders
 --
 -- Indexes for table order_details
 --
-ALTER TABLE order_details
+ALTER TABLE orderDetails
   ADD CONSTRAINT OrderID
   FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
   ADD CONSTRAINT ProductID
@@ -1159,3 +1158,8 @@ ALTER TABLE products
   FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID),
   ADD CONSTRAINT SupplierID
   FOREIGN KEY (SupplierID) REFERENCES Suppliers(SupplierID);
+ --
+-- Updating CustomerID to AUTO_INCREMENT:
+ALTER TABLE customers
+MODIFY CustomerID INT NOT NULL AUTO_INCREMENT;
+

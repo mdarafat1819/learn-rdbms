@@ -25,3 +25,19 @@ SELECT * FROM Customers
 	ORDER BY Country ASC, CustomerName DESC;
 
 SELECT * FROM Customers WHERE Country = 'Spain' AND CustomerName LIKE 'G%';
+
+SELECT * FROM Customers WHERE Country = 'Brazil' AND City = 'Rio de Janeiro' AND CustomerID > 50;
+
+SELECT * FROM Customers 
+	WHERE Country = 'Spain' AND (CustomerName LIKE 'G%' OR CustomerName LIKE 'R%');
+    
+SELECT * FROM Customers 
+	WHERE NOT Country = 'Spain';
+    
+SELECT * FROM Customers
+	WHERE CustomerName NOT LIKE 'A%';
+SELECT * FROM Customers
+	WHERE NOT CustomerID BETWEEN 10 AND 60; 
+    
+SELECT * FROM Customers 
+	WHERE NOT City IN ('Paris', 'London');
